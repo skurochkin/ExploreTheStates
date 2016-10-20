@@ -21,7 +21,6 @@ public class StatesModel {
         this.largestCity = new SimpleStringProperty(largestCity);
     }
 
-
     public String getFullStateName() {
         return fullStateName.get();
     }
@@ -45,7 +44,6 @@ public class StatesModel {
     public StringProperty abbrProperty() {
         return abbr;
     }
-
 
     public String getCapital() {
         return capitalCity.get();
