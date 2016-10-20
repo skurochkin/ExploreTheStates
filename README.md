@@ -8,4 +8,4 @@ Once you build the app it will like the one above, to search Capital and Largest
 
 Note: predictive search might give multiple results if you search by abbreviation, so the better way would be type full name of the state. If no state found, the result will not return anything.
 
-![explore the stattes](https://cloud.githubusercontent.com/assets/3438468/19574400/1ffed6d6-96d8-11e6-9344-59b255b982f9.PNG)
+![1cp1a2](https://cloud.githubusercontent.com/assets/3438468/19574843/f939e8a4-96d9-11e6-9ecf-5d6ea48cc63b.gif)
