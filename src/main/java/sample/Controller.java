@@ -5,9 +5,15 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.awt.*;
+import java.io.IOException;
+
+import static sample.JsonReader.readJsonFromUrl;
 
 public class Controller {
     @FXML
@@ -22,16 +28,34 @@ public class Controller {
 
     private ObservableList<StatesModel> masterData = FXCollections.observableArrayList();
 
-    public Controller() {
-        masterData.add(new StatesModel("AL","Montgomery", "Birmingham"));
-        masterData.add(new StatesModel("AK","Juneau", "Anchorage"));
-        masterData.add(new StatesModel("AZ","Phoenix", "Phoenix"));
-        masterData.add(new StatesModel("AR","Little Rock", "Little Rock"));
-        masterData.add(new StatesModel("CA","Sacramento", "Los Angeles"));
-        masterData.add(new StatesModel("CO","Denver", "Denver"));
-        masterData.add(new StatesModel("CT","Hartford", "Bridgeport"));
-        masterData.add(new StatesModel("DE","Dover", "Wilmington"));
-        masterData.add(new StatesModel("FL","Pensacola", "Jacksonville"));
+    public Controller() throws IOException, JSONException {
+
+        JSONObject json = readJsonFromUrl("http://services.groupkt.com/state/get/USA/all");
+        // System.out.println(json.toString());
+
+        String js = json.getJSONObject("RestResponse").getString("result");
+        JSONArray jArray = new JSONArray(js);
+        JSONObject jsObj = null;
+        String name = null;
+        String stateAbbr = null;
+        String largestCity = null ;
+        String capital= null;
+
+
+        for(int i=0; i < jArray.length(); i++)
+        {
+            try {
+                jsObj = jArray.getJSONObject(i);
+                name = jsObj.getString("name");
+                stateAbbr = jsObj.getString("abbr");
+                capital = jsObj.getString("capital");
+                largestCity = jsObj.getString("largest_city");
+                masterData.add(new StatesModel(stateAbbr,name,capital, largestCity));
+            }catch (org.json.JSONException ex){
+                masterData.add(new StatesModel(stateAbbr,name,capital, capital));
+            }
+
+        }
     }@FXML
      private void initialize() {
     // 0. Initialize the columns.
@@ -52,10 +76,10 @@ public class Controller {
             // Compare capital and largest of every state with filter text.
             String lowerCaseFilter = newValue.toLowerCase();
 
-            if (statesModel.getState().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                return true; // Filter matches first name.
-            } else if (statesModel.getLargestCity().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                return true; // Filter matches last name.
+            if (statesModel.getAbbr().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                return true; // Filter matches capital.
+            } else if (statesModel.getFullStateName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                return true; // Filter matches largest city.
             }
             return false; // Does not match.
         });

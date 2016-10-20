@@ -1,5 +1,6 @@
 package sample;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -7,27 +8,42 @@ import javafx.beans.property.StringProperty;
  * Created by slavkurochkin on 10/20/16.
  */
 public class StatesModel {
-    private final StringProperty state;
+    private final StringProperty abbr;
+    private final StringProperty fullStateName;
     private final StringProperty capitalCity;
     private final StringProperty largestCity;
 
-    public StatesModel(String state, String capitalCity, String largestCity) {
-        this.state = new SimpleStringProperty(state);
+    @JsonCreator
+    public StatesModel(String abbr, String fullStateName, String capitalCity, String largestCity) {
+        this.abbr = new SimpleStringProperty(abbr);
+        this.fullStateName = new SimpleStringProperty(fullStateName);
         this.capitalCity = new SimpleStringProperty(capitalCity);
         this.largestCity = new SimpleStringProperty(largestCity);
     }
 
 
-    public String getState() {
-        return state.get();
+    public String getFullStateName() {
+        return fullStateName.get();
     }
 
-    public void setState(String state) {
-        this.state.set(state);
+    public void setFullStateName(String fullStateName) {
+        this.fullStateName.set(fullStateName);
     }
 
-    public StringProperty stateProperty() {
-        return state;
+    public StringProperty fullStateNameProperty() {
+        return fullStateName;
+    }
+
+    public String getAbbr() {
+        return abbr.get();
+    }
+
+    public void setAbbr(String abbr) {
+        this.abbr.set(abbr);
+    }
+
+    public StringProperty abbrProperty() {
+        return abbr;
     }
 
 
