@@ -1,6 +1,5 @@
 package sample;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -13,7 +12,6 @@ public class StatesModel {
     private final StringProperty capitalCity;
     private final StringProperty largestCity;
 
-    @JsonCreator
     public StatesModel(String abbr, String fullStateName, String capitalCity, String largestCity) {
         this.abbr = new SimpleStringProperty(abbr);
         this.fullStateName = new SimpleStringProperty(fullStateName);

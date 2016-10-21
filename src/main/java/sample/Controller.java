@@ -31,14 +31,12 @@ public class Controller {
     public Controller() throws IOException, JSONException {
 
         JSONObject json = readJsonFromUrl("http://services.groupkt.com/state/get/USA/all");
-        String js = json.getJSONObject("RestResponse").getString("result");
-        JSONArray jArray = new JSONArray(js);
+        JSONArray jArray = json.getJSONObject("RestResponse").getJSONArray("result");
         JSONObject jsObj = null;
         String name = null;
         String stateAbbr = null;
         String largestCity = null ;
         String capital= null;
-
         for(int i=0; i < jArray.length(); i++)
         {
             try {
@@ -52,7 +50,8 @@ public class Controller {
                 masterData.add(new StatesModel(stateAbbr,name,capital, capital));
             }
         }
-    }@FXML
+
+        }@FXML
      private void initialize() {
     // 0. Initialize the columns.
     capitalCityColumn.setCellValueFactory(cellData -> cellData.getValue().capitalCityProperty());
@@ -69,7 +68,7 @@ public class Controller {
                 return true;
             }
 
-            // Compare capital and largest of every state with filter text.
+            // Compare state abbreviation and full name of the state with filter text.
             String lowerCaseFilter = newValue.toLowerCase();
 
             if (statesModel.getAbbr().toLowerCase().indexOf(lowerCaseFilter) != -1) {
